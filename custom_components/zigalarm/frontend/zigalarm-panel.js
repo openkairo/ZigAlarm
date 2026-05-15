@@ -87,9 +87,17 @@ class ZigAlarmPanel extends HTMLElement {
   }
 
   _render() {
+    // Inject Fonts into Head to avoid MIME-Type module issues
+    if (!document.getElementById('za-fonts')) {
+      const link = document.createElement('link');
+      link.id = 'za-fonts';
+      link.rel = 'stylesheet';
+      link.href = 'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap';
+      document.head.appendChild(link);
+    }
+
     this._root.innerHTML = `
       <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
 
         :host {
           display: block;
@@ -745,8 +753,11 @@ class ZigAlarmPanel extends HTMLElement {
   async _trigger() { const eid = this._getSelectedAlarmEntity(); if (eid) await this._hass.callService("alarm_control_panel", "alarm_trigger", { entity_id: eid }); }
 
   async _save() {
+    const eid = this._getSelectedAlarmEntity();
+    const st = this._hass.states[eid];
     const data = {
-      alarm_entity: this._getSelectedAlarmEntity(),
+      config_entry_id: st?.attributes?.config_entry_id || "",
+      alarm_entity: eid,
       perimeter_sensors: this._panelSelections.perimeter || [],
       motion_sensors: this._panelSelections.motion || [],
       always_sensors: this._panelSelections.always || [],
