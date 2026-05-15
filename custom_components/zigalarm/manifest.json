@@ -1,0 +1,11 @@
+{
+  "domain": "zigalarm",
+  "name": "ZigAlarm",
+  "codeowners": ["@low-streaming"],
+  "config_flow": true,
+  "documentation": "https://github.com/low-streaming/zigalarm",
+  "integration_type": "hub",
+  "iot_class": "local_push",
+  "requirements": [],
+  "version": "1.0.0"
+}

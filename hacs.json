@@ -1,0 +1,5 @@
+{
+  "name": "ZigAlarm",
+  "domains": ["zigalarm"],
+  "render_readme": true
+}
